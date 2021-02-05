@@ -1,0 +1,3 @@
+es:
+  users.existing_user: Ya existe un usuario registrado con este email.
+  users.auth.unauthorized: Usuario o contraseña erroneas.
