@@ -1,4 +1,6 @@
 import unittest
+from datetime import datetime
+
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -19,13 +21,24 @@ class TestUsers(unittest.TestCase):
         main.SessionLocal = sessionmaker(autocommit=True, autoflush=False, bind=engine)
         self.client = TestClient(main.app)
 
+    def tearDown(self) -> None:
+        SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+
+        engine = create_engine(
+            SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+        )
+        Base.metadata.drop_all(bind=engine)
+
     def test_create_user(self):
         """Test the user is created successfully"""
         mock_user_data = {
             "email": "deadpool@example.com",
             "password": "chimichangas4life",
             "first_name": "Bruno",
-            "last_name": "Diaz"
+            "last_name": "Diaz",
+            "document_number": "1090555555",
+            "birth_date": "1990-12-17",
+            "phone_number": "3158232786"
         }
         response = self.client.post(
             "/user/",
@@ -42,7 +55,10 @@ class TestUsers(unittest.TestCase):
             "email": "deadpool@example.com",
             "password": "chimichangas4life",
             "first_name": "Bruno",
-            "last_name": "Diaz"
+            "last_name": "Diaz",
+            "document_number": "1090555555",
+            "birth_date": "1990-12-17",
+            "phone_number": "3158232786"
         }
         response = self.client.post(
             "/user/",
