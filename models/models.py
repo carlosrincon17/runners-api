@@ -1,7 +1,7 @@
 from sqlalchemy.orm import relationship
 
 from database import Base
-from sqlalchemy import Boolean, Column, Integer, String, Date, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, String, Date, DECIMAL, Text
 
 
 class User(Base):
@@ -17,6 +17,11 @@ class User(Base):
     document_number = Column(String(10))
     birth_date = Column(Date)
     phone_number = Column(String(20))
+    country = Column(String(50))
+    city = Column(String(50))
+    gender = Column(String(1))
+    address = Column(String(255))
+    shirt_size = Column(String(2))
 
 
 class Event(Base):
@@ -28,47 +33,6 @@ class Event(Base):
     end_date = Column(Date)
     start_enrollment_date = Column(Date)
     end_enrollment_date = Column(Date)
-
-
-class Test(Base):
-
-    __tablename__ = 'tests'
-
-    id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-    name = Column(String(10))
-    description = Column(String(255), nullable=True)
-
-
-class Category(Base):
-
-    __tablename__ = 'categories'
-
-    id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-    name = Column(String(10))
-    description = Column(String(255), nullable=True)
-
-
-# class EventCategoryTest(Base):
-#
-#     __tablename__ = 'event_category_test'
-#
-#     id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-#     user_id = Column(Integer, ForeignKey('users.id'))
-#     event = relationship("Child", back_populates="event_category_tests")
-#     test_id = Column(Integer, ForeignKey('tests.id'))
-#     test = relationship("Test", back_populates="event_category_tests")
-#     category_id = Column(Integer, ForeignKey('categories.id'))
-#     category = relationship("Category", back_populates="event_category_tests")
-#
-#
-# class EventEnrollment(Base):
-#
-#     __tablename__ = 'event_enrollment'
-#
-#     id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-#     user_id = Column(Integer, ForeignKey('users.id'))
-#     event = relationship("Child", back_populates="event_category_tests")
-#     test_id = Column(Integer, ForeignKey('tests.id'))
-#     test = relationship("Test", back_populates="event_category_tests")
-#     category_id = Column(Integer, ForeignKey('categories.id'))
-#     category = relationship("Category", back_populates="event_category_tests")
+    name = Column(String(255))
+    description = Column(Text)
+    registration_amount = Column(DECIMAL(precision=10, scale=0))

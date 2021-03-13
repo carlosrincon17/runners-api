@@ -3,11 +3,19 @@ import pathlib
 import i18n
 import uvicorn
 from fastapi import FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
 
 from database import SessionLocal
 from routers import auth, user
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 current_dir = pathlib.Path(__file__).parent
 i18n.load_path.append("{}/translations/".format(current_dir))
@@ -37,7 +45,7 @@ app.include_router(
 
 app.include_router(
     user.router,
-    prefix="/user",
+    prefix="/users",
     tags=["Users"],
 )
 

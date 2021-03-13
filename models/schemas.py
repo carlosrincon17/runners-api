@@ -1,6 +1,8 @@
-from pydantic import BaseModel
+from datetime import datetime
+
+from pydantic import BaseModel, validator
 from pydantic.networks import EmailStr
-from pydantic.schema import date
+from pydantic.schema import date, Optional
 
 
 class Token(BaseModel):
@@ -20,6 +22,14 @@ class UserBase(BaseModel):
     document_number: str
     birth_date: date
     phone_number: str
+    country: str
+    city: str
+    address: str
+    gender: Optional[str]
+
+    @validator("birth_date", pre=True)
+    def parse_birthday(cls, value):
+        return datetime.strptime(value, "%d/%m/%Y").date()
 
 
 class UserCreate(UserBase):

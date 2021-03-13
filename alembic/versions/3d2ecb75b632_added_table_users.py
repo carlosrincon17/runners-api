@@ -28,6 +28,11 @@ def upgrade():
         sa.Column('document_number', sa.String(10)),
         sa.Column('phone_number', sa.String(20)),
         sa.Column('birth_date', sa.Date),
+        sa.Column('address', sa.String(255)),
+        sa.Column('gender', sa.String(20)),
+        sa.Column('country', sa.String(50)),
+        sa.Column('city', sa.String(50)),
+        sa.Column('shirt_size', sa.String(3)),
     )
 
 

@@ -23,23 +23,9 @@ def upgrade():
         sa.Column('start_enrollment_date', sa.Date),
         sa.Column('end_enrollment_date', sa.Date),
         sa.Column('description', sa.Text),
-    )
-
-    op.create_table(
-        'categories',
-        sa.Column('id', sa.Integer, primary_key=True, autoincrement=True),
-        sa.Column('name', sa.String(20)),
-        sa.Column('description', sa.String(255)),
-    )
-
-    op.create_table(
-        'tests',
-        sa.Column('id', sa.Integer, primary_key=True, autoincrement=True),
-        sa.Column('name', sa.String(20)),
-        sa.Column('description', sa.String(255)),
+        sa.Column('registration_amount', sa.DECIMAL)
     )
 
 
 def downgrade():
-    op.drop_table('categories')
-    op.drop_table('tests')
+    op.drop_table('events')
