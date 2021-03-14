@@ -18,12 +18,13 @@ def upgrade():
     op.create_table(
         'events',
         sa.Column('id', sa.Integer, primary_key=True, autoincrement=True),
+        sa.Column('event_set', sa.Integer),
+        sa.Column('distance', sa.String(255)),
         sa.Column('start_date', sa.Date),
         sa.Column('end_date', sa.Date),
         sa.Column('start_enrollment_date', sa.Date),
         sa.Column('end_enrollment_date', sa.Date),
         sa.Column('description', sa.Text),
-        sa.Column('registration_amount', sa.DECIMAL)
     )
 
 

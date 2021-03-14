@@ -11,7 +11,7 @@ class Token(BaseModel):
 
 
 class OAuth2PasswordRequest(BaseModel):
-    username: str
+    email: str
     password: str
 
 
@@ -30,6 +30,15 @@ class UserBase(BaseModel):
     @validator("birth_date", pre=True)
     def parse_birthday(cls, value):
         return datetime.strptime(value, "%d/%m/%Y").date()
+
+
+class RegistrationTypeBase(BaseModel):
+    id: int
+    name: str
+    description: str
+    limits: str
+    amount: float
+    status: str
 
 
 class UserCreate(UserBase):
