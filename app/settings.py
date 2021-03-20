@@ -7,7 +7,7 @@ class BaseSettings(pydantic.BaseSettings):
 
 
 class APISettings(BaseSettings):
-    title: str = "ACME API"
+    title: str = "Runners API"
     host: str = "0.0.0.0"
     port: int = 8000
     log_level: str = "INFO"
@@ -16,23 +16,23 @@ class APISettings(BaseSettings):
         env_prefix = "API_"
 
 
-class ThirdPartySettings(BaseSettings):
-    trm_api: str
+class DbSettings(BaseSettings):
+    database: str = ''
+    username: str = ''
+    password: str = ''
+    host: str = ''
+    port: int = 5432
 
     class Config(BaseSettings.Config):
-        env_prefix = "THIRD_PARTY_"
+        env_prefix = "DB_"
 
 
-class MongoSettings(BaseSettings):
-    uri: str
-    database: str
-    username: str
-    password: str
+class FileSettings(BaseSettings):
+    path: str = ''
 
     class Config(BaseSettings.Config):
-        env_prefix = "MONGO_"
+        env_prefix = "FILES_"
 
 
 api_settings = APISettings()
-mongo_settings = MongoSettings()
-third_party_settings = ThirdPartySettings()
+db_settings = DbSettings()

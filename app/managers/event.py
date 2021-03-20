@@ -1,5 +1,5 @@
-from managers.base import BaseManager
-from models.models import Event
+from app.managers.base import BaseManager
+from app.models.models import Event
 
 
 class EventManager(BaseManager):

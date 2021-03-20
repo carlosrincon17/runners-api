@@ -1,4 +1,3 @@
-from models.schemas import UserCreate
 from fastapi import Request
 
 

@@ -3,8 +3,8 @@ from typing import List
 
 from fastapi import APIRouter, Request
 
-from controllers.registration_type import RegistrationTypeController
-from models.schemas import RegistrationTypeBase
+from app.controllers.registration_type import RegistrationTypeController
+from app.models.schemas import RegistrationTypeBase
 
 router = APIRouter()
 

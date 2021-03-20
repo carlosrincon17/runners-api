@@ -64,5 +64,35 @@ class UserResponse(UserBase):
         orm_mode = True
 
 
+class EventRegistrationSummary(BaseModel):
+    status: str
+    total: int
+
+
+class EventRegistrationFilter(BaseModel):
+    status: str
+
+
+class EventRegistrationRow(BaseModel):
+    event_registration_id: Optional[int]
+    first_name: str
+    last_name: str
+    document_number: str
+    gender: Optional[str]
+    shirt_size: Optional[str]
+    user_id: int
+    registration_type_id: int
+    registration_type_amount: float
+    distance: Optional[str]
+
+
+class EventRegistrationData(BaseModel):
+    id: Optional[int]
+    status: str
+    distance: str
+    amount: float
+    registration_type_id: int
+
+
 class EmailSchema(BaseModel):
     email: List[EmailStr]

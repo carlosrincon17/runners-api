@@ -5,9 +5,9 @@ import uvicorn
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
-from database import SessionLocal
-from routers import auth, registration_type
-from routers import user
+from app.database import SessionLocal
+from app.routers import auth, registration_type, event_registration
+from app.routers import user
 
 app = FastAPI()
 app.add_middleware(
@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 current_dir = pathlib.Path(__file__).parent
-i18n.load_path.append("{}/translations/".format(current_dir))
+i18n.load_path.append("{}/app/translations/".format(current_dir))
 i18n.set('locale', 'es')
 
 
@@ -55,6 +55,13 @@ app.include_router(
     registration_type.router,
     prefix="/registration-type",
     tags=["RegistrationType"]
+)
+
+
+app.include_router(
+    event_registration.router,
+    prefix="/event-registration",
+    tags=["EventRegistration"]
 )
 
 

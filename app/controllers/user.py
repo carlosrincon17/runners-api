@@ -3,15 +3,14 @@ from http import HTTPStatus
 import i18n
 from fastapi import HTTPException
 
-from controllers.base import BaseController
-from managers.event import EventManager
-from managers.event_registration import EventRegistrationManager
-from managers.user import UserManager
-from models.models import Event
-from models.schemas import UserCreate, Token, JwtToken
-from utils.encryption_helper import verify_password
-from utils.jwt_helper import JWTHelper
-from utils.mail_helper import MailHelper
+from app.controllers.base import BaseController
+from app.managers.event import EventManager
+from app.managers.event_registration import EventRegistrationManager
+from app.managers.user import UserManager
+from app.models.schemas import UserCreate, JwtToken, Token
+from app.utils.encryption_helper import verify_password
+from app.utils.jwt_helper import JWTHelper
+from app.utils.mail_helper import MailHelper
 
 
 class UserController(BaseController):

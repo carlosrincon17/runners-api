@@ -1,5 +1,5 @@
-from managers.base import BaseManager
-from models.models import RegistrationType
+from app.managers.base import BaseManager
+from app.models.models import RegistrationType
 
 
 class RegistrationTypeManager(BaseManager):

@@ -2,9 +2,9 @@ from http import HTTPStatus
 
 from fastapi import APIRouter, Request, Depends
 
-from controllers.user import UserController
-from models.schemas import UserResponse, UserCreate, JwtToken
-from utils.decorators import verify_token
+from app.controllers.user import UserController
+from app.models.schemas import UserResponse, UserCreate, JwtToken
+from app.utils.decorators import verify_token
 
 router = APIRouter()
 

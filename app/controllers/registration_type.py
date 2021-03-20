@@ -1,6 +1,5 @@
-from controllers.base import BaseController
-from managers.registration_type import RegistrationTypeManager
-from models.schemas import UserCreate
+from app.controllers.base import BaseController
+from app.managers.registration_type import RegistrationTypeManager
 
 
 class RegistrationTypeController(BaseController):

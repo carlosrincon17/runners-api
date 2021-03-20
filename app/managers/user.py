@@ -1,7 +1,7 @@
-from managers.base import BaseManager
-from models.models import User
-from models.schemas import UserCreate
-from utils.encryption_helper import get_password_hash
+from app.managers.base import BaseManager
+from app.models.models import User
+from app.models.schemas import UserCreate
+from app.utils.encryption_helper import get_password_hash
 
 
 class UserManager(BaseManager):

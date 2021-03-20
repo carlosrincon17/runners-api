@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 
-from controllers.user import UserController
-from models.schemas import Token, OAuth2PasswordRequest
+from app.controllers.user import UserController
+from app.models.schemas import Token, OAuth2PasswordRequest
 
 router = APIRouter()
 
