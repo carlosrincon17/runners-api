@@ -20,3 +20,8 @@ class JWTHelper:
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
         return encoded_jwt
+
+    @staticmethod
+    def decode_token(jwt_token):
+        token_data = jwt.decode(jwt_token.split('Bearer ')[1], SECRET_KEY, algorithms=ALGORITHM)
+        return token_data

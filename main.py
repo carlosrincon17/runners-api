@@ -6,7 +6,8 @@ from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from database import SessionLocal
-from routers import auth, user, registration_type
+from routers import auth, registration_type
+from routers import user
 
 app = FastAPI()
 app.add_middleware(

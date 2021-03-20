@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, validator
 from pydantic.networks import EmailStr
-from pydantic.schema import date, Optional
+from pydantic.schema import date, Optional, List
 
 
 class Token(BaseModel):
@@ -22,10 +22,11 @@ class UserBase(BaseModel):
     document_number: str
     birth_date: date
     phone_number: str
-    country: str
+    state: str
     city: str
     address: str
     gender: Optional[str]
+    shirt_size: Optional[str]
 
     @validator("birth_date", pre=True)
     def parse_birthday(cls, value):
@@ -39,10 +40,20 @@ class RegistrationTypeBase(BaseModel):
     limits: str
     amount: float
     status: str
+    color: str
 
 
 class UserCreate(UserBase):
     password: str
+    distance: str
+    registration_type_id: int
+    distance: str
+
+
+class JwtToken(BaseModel):
+    user_id: int
+    email: EmailStr
+    exp: Optional[int]
 
 
 class UserResponse(UserBase):
@@ -51,3 +62,7 @@ class UserResponse(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class EmailSchema(BaseModel):
+    email: List[EmailStr]
