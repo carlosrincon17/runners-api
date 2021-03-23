@@ -59,7 +59,8 @@ class UserController(BaseController):
         )
         return Token(
             access_token=JWTHelper.create_access_token(token_data.dict()),
-            token_type="Bearer"
+            token_type="Bearer",
+            is_admin=user.is_admin == True
         )
 
 

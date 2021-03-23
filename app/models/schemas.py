@@ -8,6 +8,7 @@ from pydantic.schema import date, Optional, List
 class Token(BaseModel):
     access_token: str
     token_type: str
+    is_admin: bool
 
 
 class OAuth2PasswordRequest(BaseModel):
@@ -92,6 +93,7 @@ class EventRegistrationData(BaseModel):
     distance: str
     amount: float
     registration_type_id: int
+    payment_file: Optional[str]
 
 
 class EmailSchema(BaseModel):

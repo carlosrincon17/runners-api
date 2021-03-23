@@ -69,9 +69,9 @@ class EventRegistrationManager(BaseManager):
 
     def get_by_user_id(self, user_id: int) -> EventRegistrationData:
         query_result = self.db.query(
-            EventRegistration.label('registration'),
-            RegistrationType.label('registration_type'),
-            Event.label('event')
+            EventRegistration,
+            RegistrationType,
+            Event
         ).filter(
             EventRegistration.user_id == user_id,
             EventRegistration.registration_type_id == RegistrationType.id,
@@ -79,18 +79,18 @@ class EventRegistrationManager(BaseManager):
             EventRegistration.event_id == Event.id
         ).first()
         return EventRegistrationData(
-            distance=query_result.event.distance,
-            amount=query_result.registration_type.amount,
-            status=query_result.registration.amount,
-            id=query_result.registration.id,
-            registration_type_id=query_result.registration_type_id,
+            distance=query_result[2].distance,
+            amount=query_result[1].amount,
+            status=query_result[0].status,
+            id=query_result[0].id,
+            registration_type_id=query_result[1].id,
         )
 
     def get_by_id(self, registration_event_id: int) -> EventRegistrationData:
         query_result = self.db.query(
-            EventRegistration.label('registration'),
-            RegistrationType.label('registration_type'),
-            Event.label('event')
+            EventRegistration,
+            RegistrationType,
+            Event
         ).filter(
             EventRegistration.id == registration_event_id,
             EventRegistration.registration_type_id == RegistrationType.id,
@@ -98,18 +98,22 @@ class EventRegistrationManager(BaseManager):
             EventRegistration.event_id == Event.id
         ).first()
         return EventRegistrationData(
-            distance=query_result.event.distance,
-            amount=query_result.registration_type.amount,
-            status=query_result.registration.amount,
-            id=query_result.registration.id,
-            registration_type_id=query_result.registration_type_id,
+            distance=query_result[2].distance,
+            amount=query_result[1].amount,
+            status=query_result[0].status,
+            id=query_result[0].id,
+            registration_type_id=query_result[1].id,
+            payment_file=query_result[0].payment_evidence
         )
 
-    def update_registration_event_status(self, registration_event_id: int, new_status: str):
+    def update_registration_event_status(self, registration_event_id: int, new_status: str,
+                                         registration_file: str = None):
         event_registration = self.db.query(
             EventRegistration
         ).filter(
             EventRegistration.id == registration_event_id
         ).first()
         event_registration.status = new_status
-        self.db.commit()
+        if registration_file:
+            event_registration.payment_evidence = registration_file
+        self.db.flush()

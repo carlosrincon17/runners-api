@@ -1,5 +1,5 @@
 from app.managers.base import BaseManager
-from app.models.models import User
+from app.models.models import User, EventRegistration
 from app.models.schemas import UserCreate
 from app.utils.encryption_helper import get_password_hash
 
@@ -29,4 +29,13 @@ class UserManager(BaseManager):
 
     def get_user(self, **args):
         user = self.db.query(User).filter_by(**args).first()
+        return user
+
+    def get_user_by_event_registration_id(self, event_registration_id):
+        user = self.db.query(
+            User
+        ).filter(
+            EventRegistration.id == event_registration_id,
+            User.id == EventRegistration.user_id
+        ).first()
         return user
