@@ -1,0 +1,19 @@
+DB_USERNAME=postgres
+DB_PASSWORD=
+DB_DATABASE=runners
+DB_HOST=localhost
+DB_PORT=5432
+
+FILES_PATH=D:/apps/runners/data
+
+JWT_SECRET_KEY =
+JWT_ALGORITHM = "HS256"
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES = 60
+
+MAIL_USERNAME=runnerscucuta.notificaciones@gmail.com
+MAIL_PASSWORD=
+MAIL_FROM_EMAIL=runnerscucuta.notificaciones@gmail.com
+MAIL_PORT=587
+MAIL_SERVER=smtp.gmail.com
+MAIL_TLS=true
+MAIL_SSL=false
