@@ -3,7 +3,7 @@ import pydantic
 
 class BaseSettings(pydantic.BaseSettings):
     class Config:
-        env_file = ".env"
+        env_file = "runners.env"
 
 
 class APISettings(BaseSettings):

@@ -19,7 +19,9 @@ venv
 docs.zip
 archive.zip
 .env
-
+poetry.lock
+runners.env
+pg_data
 # vim temporary files
 *~
 .*.sw?

@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+    api:
+        build: .
+        working_dir: /app
+        volumes:
+        - ".:/app"
+        networks:
+            default:
+              aliases:
+                - runners-cucuta.api
+    postgres:
+        image: 'postgres:latest'
+        restart: always
+        volumes:
+            - './pg_data:/var/lib/postgresql/data'
+        environment:
+            - POSTGRES_PASSWORD=runners123
+        ports:
+            - '127.0.0.1:5432:5432'
