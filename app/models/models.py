@@ -24,6 +24,8 @@ class User(Base):
     gender = Column(String(1))
     address = Column(String(255))
     shirt_size = Column(String(2))
+    token_recovery = Column(String(20))
+    last_recovery_date = Column(DateTime)
     event_registrations = relationship("EventRegistration", back_populates="user")
 
 

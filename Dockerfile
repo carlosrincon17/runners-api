@@ -21,7 +21,8 @@ RUN apk add --no-cache --virtual .build-deps \
   python3-dev \
   rust \
   postgresql-dev \
-  postgresql-libs 
+  postgresql-libs \
+  libressl-dev
 
 RUN python3.9 -m venv /env && . /env/bin/activate
 RUN pip install --upgrade pip

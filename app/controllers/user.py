@@ -1,3 +1,5 @@
+import json
+from datetime import datetime, timedelta
 from http import HTTPStatus
 
 import i18n
@@ -7,8 +9,9 @@ from app.controllers.base import BaseController
 from app.managers.event import EventManager
 from app.managers.event_registration import EventRegistrationManager
 from app.managers.user import UserManager
+from app.models.models import User
 from app.models.schemas import UserCreate, JwtToken, Token
-from app.utils.encryption_helper import verify_password
+from app.utils.encryption_helper import verify_password, get_random_token
 from app.utils.jwt_helper import JWTHelper
 from app.utils.mail_helper import MailHelper
 
@@ -45,9 +48,8 @@ class UserController(BaseController):
         user_manager = UserManager(self.request)
         return user_manager.get_user(id=user_id)
 
-    def authenticate_user(self, email, password) -> Token:
-        user_manager = UserManager(self.request)
-        user = user_manager.get_user(email=email)
+    def authenticate_user(self, email: str, password: str) -> Token:
+        user = self.__get_user_by_email(email=email)
         if not user or not verify_password(plain_password=password, hashed_password=user.hashed_password):
             raise HTTPException(
                 status_code=HTTPStatus.UNAUTHORIZED.value,
@@ -60,8 +62,49 @@ class UserController(BaseController):
         return Token(
             access_token=JWTHelper.create_access_token(token_data.dict()),
             token_type="Bearer",
-            is_admin=user.is_admin == True
+            is_admin=user.is_admin is True
         )
 
+    async def recovery_password(self, email: str):
+        user = self.__get_user_by_email(email=email)
+        if not user:
+            raise HTTPException(
+                status_code=HTTPStatus.NOT_FOUND.value,
+                detail=i18n.t('errors.users.not_found')
+            )
+        user_manager = UserManager(self.request)
+        recovery_token = get_random_token()
+        user_manager.update_recovery_token_data(
+            user_id=user.id,
+            recovery_token=recovery_token
+        )
+        recovery_password_data = {
+            'first_name': user.first_name,
+            'link': f"/recovery-password/{recovery_token}"
+        }
+        await MailHelper().send_reset_password_email(
+            recovery_password_data=recovery_password_data,
+            user_email=user.email
+        )
+        return user
 
+    def validate_recovery_password_token(self, recovery_token: str):
+        user_manager = UserManager(self.request)
+        user = user_manager.get_user(token_recovery=recovery_token)
+        if not user:
+            raise HTTPException(
+                status_code=HTTPStatus.UNAUTHORIZED.value,
+                detail=i18n.t('errors.users.recovery_password.invalid_token')
+            )
+        final_recovery_date = user.last_recovery_date + timedelta(hours=24)
+        if datetime.utcnow() > final_recovery_date:
+            raise HTTPException(
+                status_code=HTTPStatus.UNAUTHORIZED.value,
+                detail=i18n.t('errors.users.recovery_password.token_expired')
+            )
+
+    def __get_user_by_email(self, email: str) -> User:
+        user_manager = UserManager(self.request)
+        user = user_manager.get_user(email=email)
+        return user
 

@@ -6,16 +6,22 @@ services:
         working_dir: /app
         volumes:
         - ".:/app"
-        networks:
-            default:
-              aliases:
-                - runners-cucuta.api
+        ports:
+            - '8000:8000'
+        links: 
+            - "postgres:database"   
     postgres:
         image: 'postgres:latest'
         restart: always
         volumes:
             - './pg_data:/var/lib/postgresql/data'
+            - './db:/docker-entrypoint-initdb.d/'
         environment:
-            - POSTGRES_PASSWORD=runners123
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB_NAME=postgres
+            - APP_DB_NAME=runners
+            - APP_DB_USER=runners
+            - APP_DB_PASSWORD=runners123
         ports:
             - '127.0.0.1:5432:5432'

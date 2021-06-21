@@ -32,24 +32,23 @@ def upgrade():
             {
                 'name': 'Opción 1',
                 'status': 'ACTIVE',
-                'description': 'MEDALLA + NÚMERO DEL CORREDOR + TULA',
+                'description': '[{"name": "Medalla", "icon": "ni-trophy"}, '
+                               '{"name": "Número de corredor", "icon": "ni-badge"}]',
                 'limits': '',
-                'amount': 35000
+                'amount': 35000,
+                'color': 'info'
             },
             {
                 'name': 'Opción 2',
                 'status': 'ACTIVE',
-                'description': 'MEDALLA + NÚMERO DEL CORREDOR + CAMISA FINISHER',
+                'description': '[{"name": "Medalla", "icon": "ni-trophy"}, '
+                               '{"name": "Número de corredor", "icon": "ni-badge"}, '
+                               '{"name": "Camisa Finisher", "icon": "ni-satisfied"}, '
+                               '{"name": "Tula", "icon": "ni-box-2"}]',
                 'limits': '',
-                'amount': 70000
-            },
-            {
-                'name': 'Opción 3',
-                'status': 'ACTIVE',
-                'description': 'MEDALLA + NÚMERO DEL CORREDOR + CAMISA FINISHER',
-                'limits': 'Solo para personas con situación de discapacidad',
-                'amount': 50000
-            },
+                'amount': 70000,
+                'color': 'warning'
+            }
         ]
     )
 

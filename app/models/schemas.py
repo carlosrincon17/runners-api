@@ -16,6 +16,10 @@ class OAuth2PasswordRequest(BaseModel):
     password: str
 
 
+class RecoveryPasswordRequest(BaseModel):
+    email: str
+
+
 class UserBase(BaseModel):
     email: EmailStr
     first_name: str

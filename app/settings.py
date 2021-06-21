@@ -37,10 +37,17 @@ class FileSettings(BaseSettings):
 class JwtSettings(BaseSettings):
     algorithm: str = ''
     secret_key: str = ''
-    access_token_expire_minutes: int
+    access_token_expire_minutes: int = 0
 
     class Config(BaseSettings.Config):
         env_prefix = "JWT_"
+
+
+class AppSettings(BaseSettings):
+    url: str = ''
+
+    class Config(BaseSettings.Config):
+        env_prefix = "APP_"
 
 
 class MailSettings(BaseSettings):
@@ -61,3 +68,4 @@ db_settings = DbSettings()
 file_settings = FileSettings()
 jwt_setting = JwtSettings()
 mail_setting = MailSettings()
+app_settings = AppSettings()

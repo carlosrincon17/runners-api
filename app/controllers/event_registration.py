@@ -1,3 +1,4 @@
+from app.constants.registration_event import RegistrationEventStatus
 from typing import List
 
 from app.controllers.base import BaseController
@@ -32,7 +33,7 @@ class EventRegistrationController(BaseController):
         return event_registration_manager.update_registration_event_status(
             registration_event_id=registration_event_id,
             registration_file=registration_file,
-            new_status="VALIDACIÓN DE PAGO PENDIENTE"
+            new_status=RegistrationEventStatus.PENDING_PAYMENT_VALIDATION
         )
 
     async def approve_payment_to_registration(self, registration_event_id: int) -> EventRegistrationData:
@@ -49,7 +50,7 @@ class EventRegistrationController(BaseController):
         )
         return event_registration_manager.update_registration_event_status(
             registration_event_id=registration_event_id,
-            new_status="INSCRIPCIÓN FINALIZADA"
+            new_status=RegistrationEventStatus.REGISTRATION_FINISHED
         )
 
 

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from app.managers.base import BaseManager
 from app.models.models import User, EventRegistration
 from app.models.schemas import UserCreate
@@ -27,7 +29,19 @@ class UserManager(BaseManager):
         self.db.refresh(new_user)
         return new_user
 
-    def get_user(self, **args):
+    def update_recovery_token_data(self, user_id: int, recovery_token: str):
+        user = self.get_user(id=user_id)
+        user.token_recovery = recovery_token,
+        user.last_recovery_date = datetime.utcnow()
+        self.db.flush()
+
+    def update_password_data(self, user_id: int, recovery_token: str):
+        user = self.get_user(id=user_id)
+        user.token_recovery = recovery_token,
+        user.last_recovery_date = datetime.utcnow()
+        self.db.flush()
+
+    def get_user(self, **args) -> User:
         user = self.db.query(User).filter_by(**args).first()
         return user
 

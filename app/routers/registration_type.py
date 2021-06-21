@@ -9,7 +9,7 @@ from app.models.schemas import RegistrationTypeBase
 router = APIRouter()
 
 
-@router.get("/", responses={
+@router.get("", responses={
     HTTPStatus.OK.value: {'model': List[RegistrationTypeBase],
                           'description': 'List of registration types actived in the system'
                           },

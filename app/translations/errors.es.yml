@@ -1,3 +1,9 @@
 es:
-  users.existing_user: Ya existe un usuario registrado con este email.
-  users.auth.unauthorized: Usuario o contraseña incorectos.
+  users:
+    auth:
+      unauthorized: Usuario o contraseña incorectos.
+    existing_user: Ya existe un usuario registrado con este email.
+    not_found: Lo sentimos no existe un usuario registrado, por favor verifica los datos e intenta nuevamente.
+    recovery_password:
+      invalid_token: El token que intenta usar no es válido o ya ha sido usado. Puedes recuperar tu contraseña iniciando el proceso nuevamente.
+      token_expired: Lo sentimos tu token de recuperación de contraseña ya expiró. Puedes recuperar tu contraseña iniciando el proceso nuevamente.

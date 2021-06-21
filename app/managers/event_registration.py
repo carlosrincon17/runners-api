@@ -1,3 +1,4 @@
+from app.constants.registration_event import RegistrationEventStatus
 from datetime import datetime
 from typing import List
 
@@ -17,7 +18,7 @@ class EventRegistrationManager(BaseManager):
             registration_type_id=registration_type_id,
             enrollment_date=datetime.utcnow(),
             event_id=event_id,
-            status='PAGO PENDIENTE'
+            status=RegistrationEventStatus.PENDING_PAYMENT
         )
         self.db.add(event_registration)
         self.db.flush()
@@ -68,7 +69,7 @@ class EventRegistrationManager(BaseManager):
         return event_registration_rows
 
     def get_by_user_id(self, user_id: int) -> EventRegistrationData:
-        query_result = self.db.query(
+        event_registration, registration_type, event = self.db.query(
             EventRegistration,
             RegistrationType,
             Event
@@ -79,11 +80,11 @@ class EventRegistrationManager(BaseManager):
             EventRegistration.event_id == Event.id
         ).first()
         return EventRegistrationData(
-            distance=query_result[2].distance,
-            amount=query_result[1].amount,
-            status=query_result[0].status,
-            id=query_result[0].id,
-            registration_type_id=query_result[1].id,
+            distance=event.distance,
+            amount=registration_type.amount,
+            status=event_registration.status,
+            id=event_registration.id,
+            registration_type_id=registration_type.id,
         )
 
     def get_by_id(self, registration_event_id: int) -> EventRegistrationData:
