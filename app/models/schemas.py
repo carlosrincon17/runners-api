@@ -35,7 +35,9 @@ class UserBase(BaseModel):
 
     @validator("birth_date", pre=True)
     def parse_birthday(cls, value):
-        return datetime.strptime(value, "%d/%m/%Y").date()
+        if isinstance(value, str):
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        return value
 
 
 class RegistrationTypeBase(BaseModel):
@@ -98,6 +100,7 @@ class EventRegistrationData(BaseModel):
     amount: float
     registration_type_id: int
     payment_file: Optional[str]
+    user: Optional[UserResponse]
 
 
 class EmailSchema(BaseModel):

@@ -42,6 +42,17 @@ async def get_event_registration(request: Request, jwt_token: JwtToken = Depends
     )
 
 
+@router.get("/{event_registration_id}", responses={
+    HTTPStatus.OK.value: {'model': EventRegistrationData, 'description': 'Event registration data by id'}
+})
+async def get_event_registration_by_id(request: Request, event_registration_id: int,
+                                       jwt_token: JwtToken = Depends(verify_token)):
+    event_registration_controller = EventRegistrationController(request=request)
+    return event_registration_controller.get_event_registration_by_id(
+        registration_event_id=event_registration_id
+    )
+
+
 @router.post("/{event_registration_id}/upload-payment", responses={
     HTTPStatus.OK.value: {'model': EventRegistrationData, 'description': 'Event registration data'}
 })

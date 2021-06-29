@@ -1,9 +1,8 @@
 from app.constants.registration_event import RegistrationEventStatus
-from datetime import datetime
+from datetime import date
 from typing import List
 
 from sqlalchemy import func
-from sqlalchemy.orm import aliased
 
 from app.managers.base import BaseManager
 from app.models.models import EventRegistration, User, RegistrationType, Event
@@ -16,7 +15,7 @@ class EventRegistrationManager(BaseManager):
         event_registration = EventRegistration(
             user_id=user_id,
             registration_type_id=registration_type_id,
-            enrollment_date=datetime.utcnow(),
+            enrollment_date=date.today(),
             event_id=event_id,
             status=RegistrationEventStatus.PENDING_PAYMENT
         )
@@ -88,10 +87,11 @@ class EventRegistrationManager(BaseManager):
         )
 
     def get_by_id(self, registration_event_id: int) -> EventRegistrationData:
-        query_result = self.db.query(
+        event_registration, registration_type, event, user = self.db.query(
             EventRegistration,
             RegistrationType,
-            Event
+            Event,
+            User
         ).filter(
             EventRegistration.id == registration_event_id,
             EventRegistration.registration_type_id == RegistrationType.id,
@@ -99,12 +99,13 @@ class EventRegistrationManager(BaseManager):
             EventRegistration.event_id == Event.id
         ).first()
         return EventRegistrationData(
-            distance=query_result[2].distance,
-            amount=query_result[1].amount,
-            status=query_result[0].status,
-            id=query_result[0].id,
-            registration_type_id=query_result[1].id,
-            payment_file=query_result[0].payment_evidence
+            distance=event.distance,
+            amount=registration_type.amount,
+            status=event_registration.status,
+            id=event_registration.id,
+            registration_type_id=registration_type.id,
+            payment_file=event_registration.payment_evidence,
+            user=user
         )
 
     def update_registration_event_status(self, registration_event_id: int, new_status: str,
