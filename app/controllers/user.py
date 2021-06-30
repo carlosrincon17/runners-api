@@ -10,7 +10,7 @@ from app.managers.event import EventManager
 from app.managers.event_registration import EventRegistrationManager
 from app.managers.user import UserManager
 from app.models.models import User
-from app.models.schemas import UserCreate, JwtToken, Token
+from app.models.schemas import UserCreate, JwtToken, Token, UpdatePasswordRequest
 from app.utils.encryption_helper import verify_password, get_random_token
 from app.utils.jwt_helper import JWTHelper
 from app.utils.mail_helper import MailHelper
@@ -102,6 +102,13 @@ class UserController(BaseController):
                 status_code=HTTPStatus.UNAUTHORIZED.value,
                 detail=i18n.t('errors.users.recovery_password.token_expired')
             )
+
+    def update_password(self, recovery_token: str, update_password_request: UpdatePasswordRequest):
+        user_manager = UserManager(self.request)
+        user_manager.update_password(
+            token=recovery_token,
+            password=update_password_request.password
+        )
 
     def __get_user_by_email(self, email: str) -> User:
         user_manager = UserManager(self.request)

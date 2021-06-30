@@ -57,6 +57,10 @@ class UserCreate(UserBase):
     distance: str
 
 
+class UpdatePasswordRequest(BaseModel):
+    password: str
+
+
 class JwtToken(BaseModel):
     user_id: int
     email: EmailStr

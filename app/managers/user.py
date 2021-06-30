@@ -37,12 +37,21 @@ class UserManager(BaseManager):
 
     def update_password_data(self, user_id: int, recovery_token: str):
         user = self.get_user(id=user_id)
-        user.token_recovery = recovery_token,
+        user.token_recovery = recovery_token
         user.last_recovery_date = datetime.utcnow()
         self.db.flush()
 
+    def update_password(self, token: str, password: str):
+        user = self.get_user(token_recovery=token)
+        user.token_recovery = None
+        user.last_recovery_date = None
+        user.hashed_password = get_password_hash(password)
+        self.db.flush()
+
     def get_user(self, **args) -> User:
+        print(args)
         user = self.db.query(User).filter_by(**args).first()
+        print(user)
         return user
 
     def get_user_by_event_registration_id(self, event_registration_id):
